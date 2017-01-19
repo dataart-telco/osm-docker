@@ -39,7 +39,11 @@ RUN git clone https://osm.etsi.org/gerrit/osm/devops.git /opt/devops
 
 # build and clean
 RUN /opt/devops/jenkins/SO/start_build $COMMIT_ID; \
+    rm -rf /SO/examples; \
+    rm -rf /SO/.build/examples; \
+    rm -rf /usr/rift/modules/SO/install-symlink-workaround/usr/rift/usr/rift/mano/examples; \
     rm /SO/common/python/rift/mano/tosca_translator/test/data/ping_pong_csar/images/*.qcow2; \
+    rm /usr/rift/images/*.qcow2; \
     rm /etc/apt/apt.conf.d/01proxy
 
 VOLUME /var/log/rift/
