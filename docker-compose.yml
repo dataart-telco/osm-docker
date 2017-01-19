@@ -1,0 +1,39 @@
+version: '2'
+services:
+  RO:
+    build: 
+      context: ./RO
+      args:
+        - COMMIT_ID
+    image: osm-ro
+    container_name: osm-ro
+    ports:
+      - "9090:9090"
+    volumes:
+      - /tmp/osm/openmano/logs:/opt/openmano/logs
+  SO:
+    build: 
+      context: ./SO
+      args:
+        - COMMIT_ID
+    image: osm-so
+    container_name: osm-so
+    command: /bin/true
+  SO-UI:
+    build: 
+      context: ./UI
+      args:
+        - COMMIT_ID
+    image: osm-so-ui
+    container_name: osm-so-ui
+    privileged: true
+    ports:
+    - "8008:9999"
+    - "8443:8443"
+    - "4567:4567"
+    - "4568:4568"
+    volumes:
+    - /tmp/osm/rift/:/var/log/rift/
+    depends_on:
+    - RO
+    - SO
