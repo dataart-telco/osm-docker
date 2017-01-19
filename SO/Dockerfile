@@ -2,6 +2,16 @@ from ubuntu:xenial
 
 MAINTAINER Gennadiy Dubina <gennadiy.dubina@dataat.com>
 
+
+RUN echo 'path-exclude /usr/share/doc/*\n\
+path-include /usr/share/doc/*/copyright\n\
+path-exclude /usr/share/man/*\n\
+path-exclude /usr/share/groff/*\n\
+path-exclude /usr/share/info/*\n\
+path-exclude /usr/share/lintian/*\n\
+path-exclude /usr/share/linda/*\n'\
+> /etc/dpkg/dpkg.cfg.d/01_nodoc
+
 ARG APT_PROXY
 
 RUN if [ -n "${APT_PROXY}" ]; then echo "Acquire::http { Proxy \"${APT_PROXY}\"; };" > /etc/apt/apt.conf.d/01proxy; fi
@@ -44,7 +54,7 @@ RUN /opt/devops/jenkins/SO/start_build $COMMIT_ID; \
     rm -rf /usr/rift/modules/SO/install-symlink-workaround/usr/rift/usr/rift/mano/examples; \
     rm /SO/common/python/rift/mano/tosca_translator/test/data/ping_pong_csar/images/*.qcow2; \
     rm /usr/rift/images/*.qcow2; \
-    rm /etc/apt/apt.conf.d/01proxy
+    rm /etc/apt/apt.conf.d/01proxy || true
 
 VOLUME /var/log/rift/
 EXPOSE 9999 4567 4568

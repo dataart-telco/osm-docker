@@ -13,7 +13,7 @@ ARG COMMIT_ID=tags/v1.0.5
 RUN /opt/devops/jenkins/UI/start_build $COMMIT_ID; \
     rm -rf /opt/devops; \
     rm -rf /UI; \
-    rm /etc/apt/apt.conf.d/01proxy; \
+    rm /etc/apt/apt.conf.d/01proxy || true; \
     rm -rf /var/lib/apt/lists/*
 
 EXPOSE 8888 8000 8443
