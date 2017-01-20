@@ -10,14 +10,18 @@ path-exclude /usr/share/groff/*\n\
 path-exclude /usr/share/info/*\n\
 path-exclude /usr/share/lintian/*\n\
 path-exclude /usr/share/linda/*\n'\
-> /etc/dpkg/dpkg.cfg.d/01_nodoc
+> /etc/dpkg/dpkg.cfg.d/01_nodoc && \
+    echo  'APT::Install-Recommends "false";\n\
+APT::AutoRemove::RecommendsImportant "false";\n\
+APT::AutoRemove::SuggestsImportant "false";\n'\
+> /etc/apt/apt.conf.d/99_norecommends
 
 ARG APT_PROXY
 
 RUN if [ -n "${APT_PROXY}" ]; then echo "Acquire::http { Proxy \"${APT_PROXY}\"; };" > /etc/apt/apt.conf.d/01proxy; fi
 
 RUN apt update && \
-  DEBIAN_FRONTEND=noninteractive apt install -fqy --no-install-recommends \
+  DEBIAN_FRONTEND=noninteractive apt install -fqy \
   software-properties-common \
   git \
   make \

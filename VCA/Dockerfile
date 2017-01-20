@@ -9,7 +9,7 @@ path-exclude /usr/share/groff/*\n\
 path-exclude /usr/share/info/*\n\
 path-exclude /usr/share/lintian/*\n\
 path-exclude /usr/share/linda/*\n'\
-> /etc/dpkg/dpkg.cfg.d/01_nodoc
+> /etc/dpkg/dpkg.cfg.d/01_nodoc 
 
 RUN apt update && apt install -y \
   git \
