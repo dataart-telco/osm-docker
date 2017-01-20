@@ -10,10 +10,12 @@ RUN if [ -n "${APT_PROXY}" ]; then echo "Acquire::http { Proxy \"${APT_PROXY}\";
 ARG COMMIT_ID=tags/v1.0.5
 
 # build and clean
-RUN /opt/devops/jenkins/UI/start_build $COMMIT_ID; \
-    rm -rf /opt/devops; \
-    rm -rf /UI; \
-    rm /etc/apt/apt.conf.d/01proxy || true; \
+RUN git clone https://osm.etsi.org/gerrit/osm/devops.git /opt/devops && \
+    /opt/devops/jenkins/UI/start_build $COMMIT_ID && \
+    rm -rf /opt/devops && \
+    rm -rf /UI && \
+    rm /etc/apt/apt.conf.d/01proxy || true && \
+    apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 EXPOSE 8888 8000 8443

@@ -16,14 +16,18 @@ ARG APT_PROXY
 
 RUN if [ -n "${APT_PROXY}" ]; then echo "Acquire::http { Proxy \"${APT_PROXY}\"; };" > /etc/apt/apt.conf.d/01proxy; fi
 
-RUN apt update && apt install -y \
+RUN apt update && \
+  DEBIAN_FRONTEND=noninteractive apt install -fqy --no-install-recommends \
+  software-properties-common \
   git \
   make \
   python3 \
   sudo \
   curl \
   wget \
-  openssh-server
+  openssh-server && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
 
 # add openssh-server: https://docs.docker.com/engine/examples/running_ssh_service/
 
@@ -44,17 +48,18 @@ ENV USER=root
 # build variable
 ARG COMMIT_ID=tags/v1.0.5
 
-# install
-RUN git clone https://osm.etsi.org/gerrit/osm/devops.git /opt/devops
-
-# build and clean
-RUN /opt/devops/jenkins/SO/start_build $COMMIT_ID; \
-    rm -rf /SO/examples; \
-    rm -rf /SO/.build/examples; \
-    rm -rf /usr/rift/modules/SO/install-symlink-workaround/usr/rift/usr/rift/mano/examples; \
-    rm /SO/common/python/rift/mano/tosca_translator/test/data/ping_pong_csar/images/*.qcow2; \
-    rm /usr/rift/images/*.qcow2; \
-    rm /etc/apt/apt.conf.d/01proxy || true
+# install, build and clean
+RUN git clone https://osm.etsi.org/gerrit/osm/devops.git /opt/devops && \
+    /opt/devops/jenkins/SO/start_build $COMMIT_ID && \
+    rm -rf /SO/examples && \
+    rm -rf /SO/.build/examples && \
+    rm -rf /usr/rift/modules/SO/install-symlink-workaround/usr/rift/usr/rift/mano/examples && \
+    rm /SO/common/python/rift/mano/tosca_translator/test/data/ping_pong_csar/images/*.qcow2 && \
+    rm /usr/rift/images/*.qcow2 && \
+    rm /etc/apt/apt.conf.d/01proxy || true && \
+    rm -rf /opt/devops && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 VOLUME /var/log/rift/
 EXPOSE 9999 4567 4568
