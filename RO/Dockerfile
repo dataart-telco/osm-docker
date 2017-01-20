@@ -32,12 +32,10 @@ ENV USER=root
 # build variable
 ARG COMMIT_ID=tags/v1.0.5
 
-# install; disable tests
+# install; disable tests; build openmano; clean
 RUN git clone https://osm.etsi.org/gerrit/osm/devops.git /opt/devops && \
-    sed -e '/basictest.sh/ s/^#*/#/' -i /opt/devops/jenkins/RO/start_build
-
-# build openmano; clean
-RUN /opt/devops/jenkins/RO/start_build $COMMIT_ID && \
+    sed -e '/basictest.sh/ s/^#*/#/' -i /opt/devops/jenkins/RO/start_build && \
+    /opt/devops/jenkins/RO/start_build $COMMIT_ID && \
     /RO/scripts/install-openmano-service.sh -f /RO && \
     rm -rf /opt/devops && \
     rm -rf /RO && \
