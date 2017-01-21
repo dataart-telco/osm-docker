@@ -1,4 +1,4 @@
-from osm-so:v1.0.5
+from osm-so
 
 MAINTAINER Gennadiy Dubina <gennadiy.dubina@dataat.com>
 
