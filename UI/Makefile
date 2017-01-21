@@ -2,8 +2,8 @@ HUB_REPO=datelco
 COMMIT_ID=tags/v1.0.5
 
 # get image tag from git branch/tags
-get_tag=$(or $(word 2,$(subst /, ,$1)), $(value 1))
-TAG=$(call get_tag, ${COMMIT_ID})
+get_tag=$(or $(word 2,$(subst /, ,$1)),$(value 1))
+TAG=$(call get_tag,${COMMIT_ID})
 
 config:
 	sed -e 's/^from .*/from osm-so:${TAG}/' Dockerfile.tpl > Dockerfile
