@@ -18,5 +18,23 @@ run:
 	-v /var/lib/lxd/:/var/lib/lxd/ \
 	-v /etc/default/lxd-bridge:/etc/default/lxd-bridge \
 	-it osm-vca:${TAG}
+run-bash:
+	docker run --rm --privileged=true --name osm-vca -P \
+	-v /var/run/dbus:/var/run/dbus \
+	-v /run/systemd:/run/systemd \
+	-v /usr/bin/systemctl:/usr/bin/systemctl \
+	-v /etc/systemd/system:/etc/systemd/system \
+	-v /var/lib/lxd/:/var/lib/lxd/ \
+	-v /etc/default/lxd-bridge:/etc/default/lxd-bridge \
+	-it osm-vca:${TAG} /bin/bash
+run-d:
+	docker run -d --privileged=true --name osm-vca -P \
+	-v /var/run/dbus:/var/run/dbus \
+	-v /run/systemd:/run/systemd \
+	-v /usr/bin/systemctl:/usr/bin/systemctl \
+	-v /etc/systemd/system:/etc/systemd/system \
+	-v /var/lib/lxd/:/var/lib/lxd/ \
+	-v /etc/default/lxd-bridge:/etc/default/lxd-bridge \
+	-it osm-vca:${TAG}
 push:
 	docker tag osm-vca:${TAG} ${HUB_REPO}/osm-vca:${TAG} && docker push ${HUB_REPO}/osm-vca:${TAG}

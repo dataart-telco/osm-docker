@@ -26,6 +26,7 @@ You can override them to build appropriate container
 
 #### Known issues:
 
+0. VCA and UI has port conflict: 8443 is used by LXD on host. Seems this port is hardcoded in UI JS 
 1. Huge size of SO and SO-UI containers
 2. VCA is not finished yet. Juju uses lxd, but docker can't start it inside. **Temporary solution:** attach lxd from host to container
 

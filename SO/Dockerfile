@@ -32,6 +32,7 @@ path-exclude /usr/share/linda/*\n'\
   sudo \
   curl \
   wget \
+  haproxy \
   openssh-server && \
   mkdir /var/run/sshd && \
   echo 'root:screencast' | chpasswd && \
@@ -42,6 +43,8 @@ path-exclude /usr/share/linda/*\n'\
   git clone https://osm.etsi.org/gerrit/osm/devops.git /opt/devops && \
   /opt/devops/jenkins/SO/start_build $COMMIT_ID && \
   for f in $(find /usr/rift -type l);do cp --remove-destination $(readlink $f) $f;done && \
+  pip install python-magic && \
+  pip3 install python-magic && \
   rm -rf /SO && \
   rm -rf /usr/rift/modules/SO/install-symlink-workaround/usr/rift/usr/rift/mano/examples && \
   rm /usr/rift/images/*.qcow2 && \
@@ -55,7 +58,9 @@ path-exclude /usr/share/linda/*\n'\
   apt clean && \
   rm -rf /var/lib/apt/lists/*
 
-VOLUME /var/log/rift/
-EXPOSE 9999 4567 4568
+COPY files /opt/haproxy
 
-CMD /usr/sbin/sshd && /usr/rift/rift-shell -r -i /usr/rift -a /usr/rift/.artifacts -- ./demos/launchpad.py --use-xml-mode
+VOLUME /var/log/rift/
+EXPOSE 9999 8888 4567 4568
+
+CMD haproxy -D -f /opt/haproxy/haproxy.cfg && /usr/sbin/sshd && /usr/rift/rift-shell -r -i /usr/rift -a /usr/rift/.artifacts -- ./demos/launchpad.py --use-xml-mode

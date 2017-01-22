@@ -6,7 +6,7 @@ MAINTAINER Gennadiy Dubina <gennadiy.dubina@dataat.com>
 ENV USER=root
 
 # build variable
-ARG COMMIT_ID=tags/v1.0.5
+ARG COMMIT_ID=master
 
 RUN echo 'path-exclude /usr/share/doc/*\n\
 path-include /usr/share/doc/*/copyright\n\

@@ -15,5 +15,7 @@ run:
 	docker run --rm --name osm-so-ui -P -it osm-so-ui:${TAG}
 run-bash:
 	docker run --rm --name osm-so-ui -P -it osm-so-ui:${TAG} /bin/bash
+run-test:
+	docker run --rm --name osm-so-ui -p 8008:8888 -p 9443:9443 -p 4567:4567 -p 4568:4568 -e SECURE_SERVER_PORT=9443 -it osm-so-ui:${TAG} /bin/bash
 push:
 	docker tag osm-so-ui:${TAG} ${HUB_REPO}/osm-so-ui:${TAG} && docker push ${HUB_REPO}/osm-so-ui:${TAG}

@@ -16,6 +16,7 @@ path-exclude /usr/share/linda/*\n'\
   git \
   sudo \
   curl \
+  python \
   lxd \
   juju && \
   apt clean && \

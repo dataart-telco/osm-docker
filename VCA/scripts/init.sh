@@ -63,4 +63,4 @@ trap stop_containers SIGHUP SIGINT SIGTERM
 
 #TODO while read?
 echo "Wait for KILL signal"
-read
+python /opt/init/dummy.py
