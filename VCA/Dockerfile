@@ -23,4 +23,6 @@ RUN git clone https://osm.etsi.org/gerrit/osm/devops.git /opt/devops
 
 COPY scripts /opt/init
 
+EXPOSE 443 17070
+
 CMD /opt/init/init.sh

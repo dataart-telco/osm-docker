@@ -1,30 +1,27 @@
 version: '2'
 services:
   RO:
-    build: 
-      context: ./RO
-      args:
-        - COMMIT_ID
-    image: osm-ro
+    image: ${HUB_REPO}/osm-ro:${COMMIT_ID}
     container_name: osm-ro
     ports:
       - "9090:9090"
     volumes:
       - /tmp/osm/openmano/logs:/opt/openmano/logs
-  SO:
-    build: 
-      context: ./SO
-      args:
-        - COMMIT_ID
-    image: osm-so
-    container_name: osm-so
-    command: /bin/true
+  VCA:
+    image: ${HUB_REPO}/osm-vca:${COMMIT_ID}
+    container_name: osm-ro
+    ports:
+      - "443:4443"
+      - "17070:17070"
+    volumes:
+      - /var/run/dbus:/var/run/dbus
+      - /run/systemd:/run/systemd
+      - /usr/bin/systemctl:/usr/bin/systemctl
+      - /etc/systemd/system:/etc/systemd/system
+      - /var/lib/lxd/:/var/lib/lxd/
+      - /etc/default/lxd-bridge:/etc/default/lxd-bridge
   SO-UI:
-    build: 
-      context: ./UI
-      args:
-        - COMMIT_ID
-    image: osm-so-ui
+    image: ${HUB_REPO}/osm-so-ui:${COMMIT_ID}
     container_name: osm-so-ui
     privileged: true
     ports:
@@ -36,4 +33,4 @@ services:
     - /tmp/osm/rift/:/var/log/rift/
     depends_on:
     - RO
-    - SO
+    - VCA
