@@ -9,9 +9,9 @@ services:
       - /tmp/osm/openmano/logs:/opt/openmano/logs
   VCA:
     image: ${HUB_REPO}/osm-vca:${COMMIT_ID}
-    container_name: osm-ro
+    container_name: osm-vca
     ports:
-      - "443:4443"
+      - "443:443"
       - "17070:17070"
     volumes:
       - /var/run/dbus:/var/run/dbus
