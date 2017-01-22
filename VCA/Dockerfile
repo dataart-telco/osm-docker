@@ -18,7 +18,6 @@ path-exclude /usr/share/linda/*\n'\
   curl \
   lxd \
   juju && \
-  git clone https://osm.etsi.org/gerrit/osm/devops.git /opt/devops && \
   apt clean && \
   rm -rf /var/lib/apt/lists/*
 

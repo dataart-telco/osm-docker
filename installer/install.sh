@@ -4,39 +4,44 @@ usage(){
     echo -e "usage: $0 [OPTIONS]"
     echo -e "Install OSM from docker containers"
     echo -e "  OPTIONS"
+    echo -e "    -i: install docker and docker-compose"
     echo -e "    -t: osm version (tag)"
 }
 
 install_docker() {
-	echo "Install docker"
-	curl -fsSL https://test.docker.com/ | sh
+    echo "Install docker"
+    curl -fsSL https://test.docker.com/ | sh
 
-	echo "Add user to docker group"
-	sudo usermod -aG docker $USER
+    echo "Add user to docker group"
+    sudo usermod -aG docker $USER
 
-	echo "Install docker-compose"
-	sudo curl -L "https://github.com/docker/compose/releases/download/1.9.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-	sudo chmod +x /usr/local/bin/docker-compose
+    echo "Install docker-compose"
+    sudo curl -L "https://github.com/docker/compose/releases/download/1.9.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
 
-	echo "Docker-compose version:"
-	docker-compose --version
+    echo "Docker-compose version:"
+    docker-compose --version
+
+    echo "\n!!! Need to relogin !!!"
 }
 
 if [ $# -lt 1 ]; then
-	usage && exit 1
+    usage && exit 1
 fi
 
-while getopts "ht:" o; do
+while getopts "iht:" o; do
     case "${o}" in
         h)
             usage && exit 0
             ;;
-		t)
-			#install_docker
-			sudo touch /etc/default/lxd-bridge
-			# run environment
-			export COMMIT_ID=$OPTARG
-			export HUB_REPO=datelco
+        i)
+            install_docker && exit 0
+            ;;
+        t)
+            sudo touch /etc/default/lxd-bridge
+            # run environment
+            export COMMIT_ID=$OPTARG
+            export HUB_REPO=datelco
             docker-compose -f ../docker-compose.yml up -d && exit 0
             ;;
         *)
