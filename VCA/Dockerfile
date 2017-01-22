@@ -9,17 +9,18 @@ path-exclude /usr/share/groff/*\n\
 path-exclude /usr/share/info/*\n\
 path-exclude /usr/share/lintian/*\n\
 path-exclude /usr/share/linda/*\n'\
-> /etc/dpkg/dpkg.cfg.d/01_nodoc 
-
-RUN apt update && apt install -y \
+> /etc/dpkg/dpkg.cfg.d/01_nodoc && \
+  apt update && \
+  DEBIAN_FRONTEND=noninteractive apt install -fqy --no-install-recommends \
+  ca-certificates \
   git \
   sudo \
   curl \
   lxd \
-  juju
-
-# install
-RUN git clone https://osm.etsi.org/gerrit/osm/devops.git /opt/devops
+  juju && \
+  git clone https://osm.etsi.org/gerrit/osm/devops.git /opt/devops && \
+  apt clean && \
+  rm -rf /var/lib/apt/lists/*
 
 COPY scripts /opt/init
 
