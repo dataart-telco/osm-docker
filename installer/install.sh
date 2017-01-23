@@ -4,11 +4,14 @@ usage(){
     echo -e "usage: $0 [OPTIONS]"
     echo -e "Install OSM from docker containers"
     echo -e "  OPTIONS"
-    echo -e "    -i: install docker and docker-compose"
+    echo -e "    -i: install python, docker and docker-compose"
     echo -e "    -t: osm version (tag)"
 }
 
 install_docker() {
+    echo "Install python"
+    sudo apt install -y python
+
     echo "Install docker"
     curl -fsSL https://test.docker.com/ | sh
 
