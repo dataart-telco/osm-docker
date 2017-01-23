@@ -49,7 +49,7 @@ echo "Tenant ID: $RO_TENANT_ID"
 
 #add openstack as datacenter
 echo -e "Add openstack to openmano"
-docker exec --env OPENMANO_TENANT=osm osm-ro openmano datacenter-create --type openstack --description "OpenStack Datacenter" openstack $OS_AUTH_URL
+docker exec --env OPENMANO_TENANT=osm osm-ro openmano datacenter-create --type openstack --description "OpenStack Datacenter" --config='{use_floating_ip: true}' openstack $OS_AUTH_URL 
 docker exec --env OPENMANO_TENANT=osm osm-ro openmano datacenter-attach openstack --user=$OS_USERNAME --password=$OS_PASSWORD --vim-tenant-name=$OS_TENANT_NAME
 docker exec --env OPENMANO_TENANT=osm osm-ro openmano datacenter-list
 docker exec --env OPENMANO_TENANT=osm --env OPENMANO_DATACENTER=openstack osm-ro openmano datacenter-netmap-import --force

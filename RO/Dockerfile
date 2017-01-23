@@ -32,7 +32,7 @@ APT::AutoRemove::SuggestsImportant "false";\n'\
   echo 'if [ "$1" == "-is" ]; then echo "Ubuntu"; else if [ "$1" == "-rs" ]; then echo "16.04"; fi fi' > /usr/bin/lsb_release && chmod +x /usr/bin/lsb_release && \
   git clone https://osm.etsi.org/gerrit/osm/devops.git /opt/devops && \
   sed -e '/basictest.sh/ s/^#*/#/' -i /opt/devops/jenkins/RO/start_build && \
-  /opt/devops/jenkins/RO/start_build $COMMIT_ID && \
+  /opt/devops/jenkins/RO/start_build checkout $COMMIT_ID && \
   /RO/scripts/install-openmano-service.sh -f /RO && \
   rm -rf /opt/devops && \
   rm -rf /RO && \

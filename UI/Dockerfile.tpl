@@ -20,7 +20,7 @@ RUN if [ -n "${APT_PROXY}" ]; then echo "Acquire::http { Proxy \"${APT_PROXY}\";
   rsync && \
   git clone https://osm.etsi.org/gerrit/osm/devops.git /opt/devops && \
   cd /opt/devops && git apply /opt/devops-patches/devops-ui.patch && cd / && \
-  /opt/devops/jenkins/UI/start_build $COMMIT_ID && \
+  /opt/devops/jenkins/UI/start_build checkout $COMMIT_ID && \
   rm -rf /opt/devops-patches && \
   rm -rf /opt/devops && \
   rm -rf /UI && \

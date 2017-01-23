@@ -41,7 +41,7 @@ path-exclude /usr/share/linda/*\n'\
   echo "export VISIBLE=now" >> /etc/profile && \
   echo 'if [ "$1" == "-is" ]; then echo "Ubuntu"; else if [ "$1" == "-rs" ]; then echo "16.04"; fi fi' > /usr/bin/lsb_release && chmod +x /usr/bin/lsb_release && \
   git clone https://osm.etsi.org/gerrit/osm/devops.git /opt/devops && \
-  /opt/devops/jenkins/SO/start_build $COMMIT_ID && \
+  /opt/devops/jenkins/SO/start_build checkout $COMMIT_ID && \
   for f in $(find /usr/rift -type l);do cp --remove-destination $(readlink $f) $f;done && \
   pip install python-magic && \
   pip3 install python-magic && \
