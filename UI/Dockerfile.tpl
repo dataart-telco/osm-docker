@@ -8,6 +8,8 @@ ARG APT_PROXY
 # build variable
 ARG COMMIT_ID=master
 
+COPY patches /opt/devops-patches
+
 RUN if [ -n "${APT_PROXY}" ]; then echo "Acquire::http { Proxy \"${APT_PROXY}\"; };" > /etc/apt/apt.conf.d/01proxy; fi && \
   apt update && \
   DEBIAN_FRONTEND=noninteractive apt install -fqy \
@@ -17,7 +19,9 @@ RUN if [ -n "${APT_PROXY}" ]; then echo "Acquire::http { Proxy \"${APT_PROXY}\";
   wget \
   rsync && \
   git clone https://osm.etsi.org/gerrit/osm/devops.git /opt/devops && \
+  cd /opt/devops && git apply /opt/devops-patches/devops-ui.patch && cd / && \
   /opt/devops/jenkins/UI/start_build $COMMIT_ID && \
+  rm -rf /opt/devops-patches && \
   rm -rf /opt/devops && \
   rm -rf /UI && \
   rm -rf /usr/rift/usr/include/* && \

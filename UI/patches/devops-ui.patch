@@ -1,0 +1,12 @@
+diff --git a/jenkins/UI/start_build b/jenkins/UI/start_build
+index 50b2e06..13deaf2 100755
+--- a/jenkins/UI/start_build
++++ b/jenkins/UI/start_build
+@@ -27,6 +27,7 @@ export OSM_MDG=UI
+ OSM_load_config
+ OSM_git_checkout "$@"
+ 
++git apply /opt/devops-patches/hot_fix.patch
+ 
+ INFO "starting build"
+ make clean || FATAL "Make clean failed"
