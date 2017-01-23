@@ -24,14 +24,13 @@ services:
     image: ${HUB_REPO}/osm-so-ui:${COMMIT_ID}
     container_name: osm-so-ui
     privileged: true
-    network_mode: host
     ports:
-    - "8008:8888"
-    - "8443:8443"
-    - "4567:4567"
-    - "4568:4568"
+      - "8008:8888"
+      - "9443:8443"
+      - "4567:4567"
+      - "4568:4568"
     volumes:
-    - /tmp/osm/rift/:/var/log/rift/
+      - /tmp/osm/rift/:/var/log/rift/
     depends_on:
-    - RO
-    - VCA
+      - RO
+      - VCA

@@ -3,6 +3,15 @@ Docker containers of OSM ETSI
 
 OSM ETSI - https://osm.etsi.org/ 
 
+#### How to use
+
+1. go to installer folder
+2. install docker env - `./install.sh -i`
+3. start containers - `./install.sh -t v1.1`
+
+**UI** uses https with **9443**
+
+#### Containers
 
 There are 4 containers:
 
