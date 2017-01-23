@@ -11,6 +11,8 @@ OSM ETSI - https://osm.etsi.org/
 
 **UI** uses https with **9443**
 
+**ISSUE**: To login you should add **api_port=9443** to url :(
+
 #### Containers
 
 There are 4 containers:
