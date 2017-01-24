@@ -15,4 +15,4 @@ export COMMIT_ID=$1
 export HUB_REPO=datelco
 export NET_MTU=${2:-1500}
 
-docker-compose -f ../docker-compose.yml config
+docker-compose -f ../docker-compose.yml up -d
