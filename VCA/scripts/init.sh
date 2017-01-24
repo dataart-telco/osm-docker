@@ -42,6 +42,10 @@ LXD_IPV6_NAT="false"
 LXD_IPV6_PROXY="false"
 EOF
 
+  if [ -n "$NET_MTU" ]; then
+    lxc profile device set default eth0 mtu $NET_MTU
+  fi
+
   systemctl enable lxd-bridge
   systemctl start lxd-bridge
   lxc image copy ubuntu:16.04 local: --alias ubuntu-xenial

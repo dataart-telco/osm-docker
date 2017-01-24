@@ -10,6 +10,8 @@ services:
   VCA:
     image: ${HUB_REPO}/osm-vca:${COMMIT_ID}
     container_name: osm-vca
+    environment:
+      - NET_MTU=${NET_MTU}
     ports:
       - "443:443"
       - "17070:17070"
