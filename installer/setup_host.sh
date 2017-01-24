@@ -32,15 +32,15 @@ install_docker() {
 configure_mtu() {
     mtu=$1
 
-    sed "s/dockerd/dockerd --mtu $mtu/" /lib/systemd/system/docker.service
-    systemctl daemon-reload
-    service docker restart
+    sudo sed -i "s/dockerd/dockerd --mtu $mtu/" /lib/systemd/system/docker.service
+    sudo systemctl daemon-reload
+    sudo service docker restart
 }
 
 disable_docker_proxy() {
-    sed "s/dockerd/dockerd --userland-proxy=false/" /lib/systemd/system/docker.service
-    systemctl daemon-reload
-    service docker restart
+    sudo sed -i "s/dockerd/dockerd --userland-proxy=false/" /lib/systemd/system/docker.service
+    sudo systemctl daemon-reload
+    sudo service docker restart
 }
 
 DISABLE_PROXY=false
