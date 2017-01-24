@@ -13,7 +13,7 @@ echo -e "\nConfiguring osm env"
 
 get_container_ip(){
   container=$1
-  echo `docker inspect $container | python -c "import sys, json; print json.load(sys.stdin)[0]['NetworkSettings']['Networks']['osmdocker_default']['IPAddress']"`
+  echo `docker inspect $container | python -c "import sys, json; print json.load(sys.stdin)[0]['NetworkSettings']['Networks']['osm_default']['IPAddress']"`
 }
 
 JUJU_PASSWD=`docker exec osm-vca juju show-controller osm --show-password | grep password | awk '{print $2}'`
