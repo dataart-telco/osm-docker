@@ -18,6 +18,7 @@ delete_all() {
 }
 
 init_juju() {
+  systemctl restart lxd
   lxd init --auto
   lxd waitready
   systemctl stop lxd-bridge
@@ -45,7 +46,6 @@ EOF
   systemctl start lxd-bridge
   lxc image copy ubuntu:16.04 local: --alias ubuntu-xenial
   juju bootstrap localhost osm
-  juju gui --no-browser
 }
 
 #TODO check tools is already inited

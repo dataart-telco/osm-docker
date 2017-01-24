@@ -18,6 +18,9 @@ install_docker() {
     echo "Add user to docker group"
     sudo usermod -aG docker $USER
 
+    # sed "s/fd:\/\//fd:\/\/ --mtu 1400/" /lib/systemd/system/docker.service
+    # sudo service docker restart
+
     echo "Install docker-compose"
     sudo curl -L "https://github.com/docker/compose/releases/download/1.9.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
     sudo chmod +x /usr/local/bin/docker-compose
