@@ -34,3 +34,8 @@ services:
     depends_on:
       - RO
       - VCA
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: ${NET_MTU}
