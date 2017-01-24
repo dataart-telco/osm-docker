@@ -6,8 +6,8 @@ OSM ETSI - https://osm.etsi.org/
 #### How to use
 
 1. go to installer folder
-2. install docker env - `./install.sh -i`
-3. start containers - `./install.sh -t v1.1`
+2. install docker env - `./setup_host.sh --no-proxy`. also you can specify MTU of your network - `./setup_host.sh -m 1400 --no-proxy`
+3. start containers - `./install_osm.sh v1.1`. also you can specify MTU of your network - `./install_osm.sh v1.1 1400`
 
 **UI** uses https with **9443**
 

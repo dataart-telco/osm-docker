@@ -1,8 +1,12 @@
 #!/bin/bash
 
 usage(){
+    echo "usage: $0 [OPTIONS]"
     echo "Install and configure software on the host"
-    echo "usage: $0 [mtu]"
+    echo "  OPTIONS"
+    echo -e "    -m MTU:\t setup network mtu"
+    echo -e "    --no-proxy:\t disable docker-proxy"
+    echo -e "    -h, --help:\t show this help"
 }
 
 install_docker() {
@@ -27,19 +31,57 @@ install_docker() {
 
 configure_mtu() {
     mtu=$1
-    echo "Configure mtu: $mtu"
-    if [ -z "$mtu" ]; then
-        "MTU is empty"
-        return
-    fi
 
-    sed "s/fd:\/\//fd:\/\/ --mtu $mtu/" /lib/systemd/system/docker.service
+    sed "s/dockerd/dockerd --mtu $mtu/" /lib/systemd/system/docker.service
     systemctl daemon-reload
     service docker restart
 }
 
+disable_docker_proxy() {
+    sed "s/dockerd/dockerd --userland-proxy=false/" /lib/systemd/system/docker.service
+    systemctl daemon-reload
+    service docker restart
+}
+
+DISABLE_PROXY=false
+NET_MTU=''
+
+while getopts ":m:h-:" o; do
+    case "${o}" in
+        m)
+            NET_MTU="$OPTARG"
+            ;;
+
+        h)
+            usage && exit 0
+            ;;
+        -)
+            [ "${OPTARG}" == "help" ] && usage && exit 0
+            [ "${OPTARG}" == "no-proxy" ] && DISABLE_PROXY=true && continue
+            echo -e "Invalid option: '--$OPTARG'\nTry $0 --help for more information" >&2 
+            exit 1
+            ;; 
+        \?)
+            echo -e "Invalid option: '-$OPTARG'\nTry $0 --help for more information" >&2
+            exit 1
+            ;;
+        :)
+            echo -e "Option '-$OPTARG' requires an argument\nTry $0 --help for more information" >&2
+            exit 1
+            ;;
+        *)
+            usage >&2
+            exit 1
+            ;;
+    esac
+done
+
 install_docker
 
-if [ -n "$1" ]; then
-    configure_mtu $1
+if [ "$DISABLE_PROXY" = true ]; then
+    disable_docker_proxy
+fi
+
+if [ -n "$NET_MTU" ]; then
+    configure_mtu $NET_MTU
 fi
