@@ -22,7 +22,7 @@ path-exclude /usr/share/linda/*\n'\
   apt clean && \
   rm -rf /var/lib/apt/lists/*
 
-ENV NET_MTU
+ENV NET_MTU=""
 
 COPY scripts /opt/init
 
