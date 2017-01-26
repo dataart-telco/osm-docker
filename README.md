@@ -43,4 +43,4 @@ You can override them to build appropriate container
 1. Fix issues with juju lxc containers lifecycle
 
 #### Diagram
-![osm-docker](https://www.dropbox.com/s/mohe0o51c4j1t6g/osm-docker.png?dl=0)
+![osm-docker](https://www.dropbox.com/s/mohe0o51c4j1t6g/osm-docker.png)
