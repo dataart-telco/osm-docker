@@ -1,14 +1,16 @@
-HUB_REPO=datelco
-COMMIT_ID=tags/v1.0.5
+HUB_REPO:=datelco
+COMMIT_ID:=tags/v1.0.5
+APT_PROXY_IP:=172.17.0.2
+NO_CACHE:=false
 
 # get image tag from git branch/tags
 get_tag=$(or $(word 2,$(subst /, ,$1)),$(value 1))
-TAG=$(call get_tag,${COMMIT_ID})
+TAG:=$(call get_tag,${COMMIT_ID})
 
 build:
-	docker build -t osm-vca:${TAG} .
+	docker build --no-cache=${NO_CACHE} -t osm-vca:${TAG} .
 build-proxy:
-	docker build --build-arg http_proxy=http://172.17.0.2:3142/ --build-arg https_proxy= -t osm-vca:${TAG} .
+	docker build --no-cache=${NO_CACHE} --build-arg http_proxy=http://${APT_PROXY_IP}:3142/ --build-arg https_proxy= -t osm-vca:${TAG} .
 run:
 	docker run --rm --privileged=true --name osm-vca -P \
 	-v /var/run/dbus:/var/run/dbus \
