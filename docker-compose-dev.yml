@@ -7,21 +7,6 @@ services:
       - "9090:9090"
     volumes:
       - /tmp/osm/openmano/logs:/opt/openmano/logs
-  osm-vca:
-    image: ${HUB_REPO}/osm-vca:${COMMIT_ID}
-    container_name: osm-vca
-    environment:
-      - NET_MTU=${NET_MTU}
-    ports:
-      - "443:443"
-      - "17070:17070"
-    volumes:
-      - /var/run/dbus:/var/run/dbus
-      - /run/systemd:/run/systemd
-      - /usr/bin/systemctl:/usr/bin/systemctl
-      - /etc/systemd/system:/etc/systemd/system
-      - /var/lib/lxd/:/var/lib/lxd/
-      - /etc/default/lxd-bridge:/etc/default/lxd-bridge
   osm-so:
     image: ${HUB_REPO}/osm-so:${COMMIT_ID}
     container_name: osm-so
@@ -34,7 +19,6 @@ services:
       - /tmp/osm/rift/:/var/log/rift/
     depends_on:
       - osm-ro
-      - osm-vca
   osm-ui:
     image: ${HUB_REPO}/osm-ui:${COMMIT_ID}
     container_name: osm-ui

@@ -14,12 +14,13 @@ OSM ETSI - https://osm.etsi.org/
 
 #### Containers
 
-There are 4 containers:
+There are 5 containers:
 
 1. RO - resouse orchestration: opnemano (size 859M)
 2. SO - service orchestration (size ~5.5G)
-3. SO-UI - SO + user interface (size ~7.5G)
+3. UI - user interface (size ~1.5G)
 4. VCA - configuration agent: juju (size ~500M)
+5. SO-UI - (legacy, deprecated), SO + user interface (size ~7.5G)
 
 Also you can find `docker-compose` budle
 
