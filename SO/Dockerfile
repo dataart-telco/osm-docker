@@ -63,7 +63,7 @@ path-exclude /usr/share/linda/*\n'\
 
 COPY files /opt/haproxy
 
-#VOLUME /var/log/rift/
+VOLUME /var/log/rift/
 EXPOSE 9999 8888 4567 4568
 
-CMD haproxy -D -f /opt/haproxy/haproxy.cfg && /usr/sbin/sshd && /usr/rift/rift-shell -r -i /usr/rift -a /usr/rift/.artifacts -- ./demos/launchpad.py --no-ui --use-xml-mode
+CMD haproxy -D -f /opt/haproxy/haproxy.cfg && /usr/sbin/sshd && chown syslog:syslog /var/log/rift/ && /usr/rift/rift-shell -r -i /usr/rift -a /usr/rift/.artifacts -- ./demos/launchpad.py --no-ui --use-xml-mode

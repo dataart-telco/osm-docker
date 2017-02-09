@@ -6,8 +6,6 @@ MAINTAINER Gennadiy Dubina <gennadiy.dubina@dataat.com>
 ARG COMMIT_ID=master
 
 COPY patches /opt/osm-patches
-COPY scripts /opt/osm-tools
-
 
 RUN git clone https://osm.etsi.org/gerrit/osm/UI.git /usr/src/UI && \
     cd /usr/src/UI && \
@@ -19,6 +17,8 @@ RUN git clone https://osm.etsi.org/gerrit/osm/UI.git /usr/src/UI && \
     cd /usr/src/UI/skyquake && ./scripts/build.sh 
 
 WORKDIR /usr/src/UI/skyquake
+
+COPY scripts /opt/osm-tools
 
 ENV API_SERVER=localhost UPLOAD_SERVER=
 
