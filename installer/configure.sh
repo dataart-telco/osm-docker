@@ -26,7 +26,7 @@ JUJU_CONTROLLER_IP=`docker exec osm-vca juju show-controller osm | grep api-endp
 #cut ip address from: ['10.44.127.68:17070']
 JUJU_CONTROLLER_IP=`echo ${JUJU_CONTROLLER_IP:2:-2} | cut -d : -f1`
 
-SO_CONTAINER_IP=`get_container_ip osm-so`
+SO_CONTAINER_IP=`get_container_ip osm-so-ui`
 RO_CONTAINER_IP=`get_container_ip osm-ro`
 
 echo "+++++++++++++++++++++++++++++++++++"

@@ -24,32 +24,21 @@ services:
       - /etc/systemd/system:/etc/systemd/system
       - /var/lib/lxd/:/var/lib/lxd/
       - /etc/default/lxd-bridge:/etc/default/lxd-bridge
-  osm-so:
-    image: ${HUB_REPO}/osm-so:${COMMIT_ID}
-    container_name: osm-so
+  osm-so-ui:
+    image: ${HUB_REPO}/osm-so-ui:${COMMIT_ID}
+    container_name: osm-so-ui
     restart: always
     privileged: true
     ports:
       - "8008:8888"
       - "4567:4567"
       - "4568:4568"
+      - "9443:8443"
     volumes:
       - /var/log/osm/rift/:/var/log/rift/
     depends_on:
       - osm-ro
       - osm-vca
-  osm-ui:
-    image: ${HUB_REPO}/osm-ui:${COMMIT_ID}
-    container_name: osm-ui
-    restart: always
-    environment:
-      - API_SERVER=${API_SERVER}
-    ports:
-      - "9443:8443"
-    depends_on:
-      - osm-so
-    links:
-      - osm-so
 networks:
   default:
     driver: bridge
