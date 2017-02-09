@@ -1,0 +1,111 @@
+diff --git a/skyquake/framework/utils/utils.js b/skyquake/framework/utils/utils.js
+index 8a54ff3..e8e9ad1 100644
+--- a/skyquake/framework/utils/utils.js
++++ b/skyquake/framework/utils/utils.js
+@@ -189,7 +189,7 @@ Utils.setAuthentication = function(username, password, cb) {
+     window.sessionStorage.setItem("auth", AuthBase64);
+     self.detectInactivity();
+     $.ajax({
+-            url: '//' + window.location.hostname + ':' + NODE_PORT + '/check-auth?api_server=' + API_SERVER,
++            url: '//' + window.location.hostname + ':' + window.location.port + '/check-auth?api_server=' + API_SERVER,
+             type: 'GET',
+             beforeSend: Utils.addAuthorizationStub,
+             success: function(data) {
+diff --git a/skyquake/framework/widgets/JSONViewer/JSONViewer.scss b/skyquake/framework/widgets/JSONViewer/JSONViewer.scss
+index 08fcefd..62495b2 100644
+--- a/skyquake/framework/widgets/JSONViewer/JSONViewer.scss
++++ b/skyquake/framework/widgets/JSONViewer/JSONViewer.scss
+@@ -1,4 +1,5 @@
+ .JSONViewer {
++	max-width: 640px;
+ 	/*
+ 	copied from node_modules/prismjs/themes/prismjs.css
+ */
+diff --git a/skyquake/framework/widgets/skyquake_container/skyquakeContainerSource.js b/skyquake/framework/widgets/skyquake_container/skyquakeContainerSource.js
+index 49356a4..fca997e 100644
+--- a/skyquake/framework/widgets/skyquake_container/skyquakeContainerSource.js
++++ b/skyquake/framework/widgets/skyquake_container/skyquakeContainerSource.js
+@@ -55,7 +55,7 @@ export default {
+             remote: function(state, recordID) {
+                 return new Promise(function(resolve, reject) {
+                     $.ajax({
+-                        url: '//' + window.location.hostname + ':' + NODE_PORT + '/api/operational/restconf-state/streams?api_server=' + API_SERVER,
++                        url: '//' + window.location.hostname + ':' + window.location.port + '/api/operational/restconf-state/streams?api_server=' + API_SERVER,
+                         type: 'GET',
+                         beforeSend: Utils.addAuthorizationStub,
+                         success: function(data) {
+@@ -78,7 +78,7 @@ export default {
+             remote: function(state, location, streamSource) {
+                 return new Promise((resolve, reject) => {
+                     $.ajax({
+-                        url: '//' + window.location.hostname + ':' + NODE_PORT + '/socket-polling?api_server=' + API_SERVER,
++                        url: '//' + window.location.hostname + ':' + window.location.port + '/socket-polling?api_server=' + API_SERVER,
+                         type: 'POST',
+                         beforeSend: Utils.addAuthorizationStub,
+                         data: {
+diff --git a/skyquake/plugins/composer/src/src/sources/RiftHeaderSource.js b/skyquake/plugins/composer/src/src/sources/RiftHeaderSource.js
+index e479d33..3e61387 100644
+--- a/skyquake/plugins/composer/src/src/sources/RiftHeaderSource.js
++++ b/skyquake/plugins/composer/src/src/sources/RiftHeaderSource.js
+@@ -31,7 +31,7 @@ function getApiServerOrigin() {
+ }
+ function ajaxRequest(path, catalogPackage, resolve, reject, method = 'GET') {
+ 	$.ajax({
+-		url: '//' + window.location.hostname + ':' + getApiServerOrigin() + path,
++		url: '//' + window.location.hostname + ':' + window.location.port + path,
+ 		type: method,
+ 		beforeSend: utils.addAuthorizationStub,
+ 		dataType: 'json',
+diff --git a/skyquake/plugins/launchpad/src/createSource.js b/skyquake/plugins/launchpad/src/createSource.js
+index d9271d6..6c837a7 100644
+--- a/skyquake/plugins/launchpad/src/createSource.js
++++ b/skyquake/plugins/launchpad/src/createSource.js
+@@ -29,7 +29,7 @@ module.exports = {
+       remote: function() {
+         return new Promise(function(resolve, reject) {
+           $.ajax({
+-            url: '//' + window.location.hostname + ':' + NODE_PORT + '/api/launchpad/network-service?api_server=' + API_SERVER,
++            url: '//' + window.location.hostname + ':' + window.location.port + '/api/launchpad/network-service?api_server=' + API_SERVER,
+             type: 'GET',
+             beforeSend: Utils.addAuthorizationStub,
+             success: function(data) {
+@@ -46,7 +46,7 @@ module.exports = {
+     return {
+       remote: function(state, environment) {
+         return $.ajax({
+-          url: '//' + window.location.hostname + ':' + NODE_PORT + '/api/launchpad/environment?api_server=' + API_SERVER,
++          url: '//' + window.location.hostname + ':' + window.location.port + '/api/launchpad/environment?api_server=' + API_SERVER,
+           type: 'POST',
+           beforeSend: Utils.addAuthorizationStub,
+           dataType: 'json',
+@@ -65,7 +65,7 @@ module.exports = {
+       remote: function() {
+         return new Promise(function(resolve, reject) {
+           $.ajax({
+-            url: '//' + window.location.hostname + ':' + NODE_PORT + '/api/launchpad/pools?api_server=' + API_SERVER,
++            url: '//' + window.location.hostname + ':' + window.location.port + '/api/launchpad/pools?api_server=' + API_SERVER,
+             type: 'GET',
+             beforeSend: Utils.addAuthorizationStub,
+             success: function(data) {
+@@ -83,7 +83,7 @@ module.exports = {
+       remote: function() {
+         return new Promise(function(resolve, reject) {
+           $.ajax({
+-            url: '//' + window.location.hostname + ':' + NODE_PORT + '/api/launchpad/sla-params?api_server=' + API_SERVER,
++            url: '//' + window.location.hostname + ':' + window.location.port + '/api/launchpad/sla-params?api_server=' + API_SERVER,
+             type: 'GET',
+             beforeSend: Utils.addAuthorizationStub,
+             success: function(data) {
+diff --git a/skyquake/plugins/launchpad/src/vnfr/vnfrSource.js b/skyquake/plugins/launchpad/src/vnfr/vnfrSource.js
+index bcb8252..327bdb9 100644
+--- a/skyquake/plugins/launchpad/src/vnfr/vnfrSource.js
++++ b/skyquake/plugins/launchpad/src/vnfr/vnfrSource.js
+@@ -42,7 +42,7 @@ export default {
+           }
+           console.log(nsr_id)
+           $.ajax({
+-            url: '//' + window.location.hostname + ':' + NODE_PORT + '/socket-polling?api_server=' + API_SERVER,
++            url: '//' + window.location.hostname + ':' + window.location.port + '/socket-polling?api_server=' + API_SERVER,
+             type: 'POST',
+             beforeSend: Utils.addAuthorizationStub,
+             data: {
