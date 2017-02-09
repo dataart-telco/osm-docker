@@ -1,0 +1,17 @@
+ jenkins/SO/start_build | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/jenkins/SO/start_build b/jenkins/SO/start_build
+index a672e14..0534945 100755
+--- a/jenkins/SO/start_build
++++ b/jenkins/SO/start_build
+@@ -31,6 +31,8 @@ trap 'WARNING "INTERRUPT"; exit 1' INT
+ 
+ INFO "starting build"
+ make clean || FATAL "make clean failed"
++git apply /opt/osm-patches/openmano_timeout.patch
++git apply /opt/osm-patches/BUILD.patch
+ ./BUILD.sh
+ 
+ RC=$?
+

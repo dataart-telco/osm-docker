@@ -1,0 +1,21 @@
+ BUILD.sh | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/BUILD.sh b/BUILD.sh
+index 788f9d1..912c09a 100755
+--- a/BUILD.sh
++++ b/BUILD.sh
+@@ -271,9 +271,9 @@ fi
+ 
+ # install some base files used to create VNFs
+ test -d /usr/rift/images || mkdir /usr/rift/images
+-for file in Fedora-x86_64-20-20131211.1-sda-ping.qcow2 Fedora-x86_64-20-20131211.1-sda-pong.qcow2 Fedora-x86_64-20-20131211.1-sda.qcow2; do
+-    test -f /usr/rift/images/$file || curl -o /usr/rift/images/$file http://repo.riftio.com/releases/open.riftio.com/4.3.1/$file 
+-done
++#for file in Fedora-x86_64-20-20131211.1-sda-ping.qcow2 Fedora-x86_64-20-20131211.1-sda-pong.qcow2 Fedora-x86_64-20-20131211.1-sda.qcow2; do
++#    test -f /usr/rift/images/$file || curl -o /usr/rift/images/$file http://repo.riftio.com/releases/open.riftio.com/4.3.1/$file 
++#done
+ 
+ # If you are re-building SO, you just need to run
+ # these two steps
+

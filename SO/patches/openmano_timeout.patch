@@ -1,0 +1,17 @@
+ models/openmano/python/rift/openmano/openmano_client.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/models/openmano/python/rift/openmano/openmano_client.py b/models/openmano/python/rift/openmano/openmano_client.py
+index 09fb43d..6f9157f 100755
+--- a/models/openmano/python/rift/openmano/openmano_client.py
++++ b/models/openmano/python/rift/openmano/openmano_client.py
+@@ -96,7 +96,7 @@ class OpenmanoHttpAPI(object):
+ class OpenmanoCliAPI(object):
+     """ This class implements the necessary funtionality to interact with  """
+ 
+-    CMD_TIMEOUT = 30
++    CMD_TIMEOUT = 300
+ 
+     def __init__(self, log, host, port, tenant):
+         self._log = log
+

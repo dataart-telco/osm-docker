@@ -11,6 +11,8 @@ ENV USER=root
 # build variable
 ARG COMMIT_ID=master
 
+COPY patches /opt/osm-patches
+
 # add openssh-server: https://docs.docker.com/engine/examples/running_ssh_service/
 
 # avoid docs, add proxy, install packages
@@ -41,6 +43,7 @@ path-exclude /usr/share/linda/*\n'\
   echo "export VISIBLE=now" >> /etc/profile && \
   echo 'if [ "$1" == "-is" ]; then echo "Ubuntu"; else if [ "$1" == "-rs" ]; then echo "16.04"; fi fi' > /usr/bin/lsb_release && chmod +x /usr/bin/lsb_release && \
   git clone https://osm.etsi.org/gerrit/osm/devops.git /opt/devops && \
+  cd /opt/devops && git apply /opt/osm-patches/start_build.patch && cd / && \
   /opt/devops/jenkins/SO/start_build checkout $COMMIT_ID && \
   for f in $(find /usr/rift -type l);do cp --remove-destination $(readlink $f) $f;done && \
   pip install python-magic && \
@@ -60,7 +63,7 @@ path-exclude /usr/share/linda/*\n'\
 
 COPY files /opt/haproxy
 
-VOLUME /var/log/rift/
+#VOLUME /var/log/rift/
 EXPOSE 9999 8888 4567 4568
 
-CMD haproxy -D -f /opt/haproxy/haproxy.cfg && /usr/sbin/sshd && chown syslog:syslog /var/log/rift && /usr/rift/rift-shell -r -i /usr/rift -a /usr/rift/.artifacts -- ./demos/launchpad.py --use-xml-mode
+CMD haproxy -D -f /opt/haproxy/haproxy.cfg && /usr/sbin/sshd && /usr/rift/rift-shell -r -i /usr/rift -a /usr/rift/.artifacts -- ./demos/launchpad.py --no-ui --use-xml-mode

@@ -15,8 +15,8 @@ services:
       - "8008:8888"
       - "4567:4567"
       - "4568:4568"
-    volumes:
-      - /tmp/osm/rift/:/var/log/rift/
+#    volumes:
+#      - /tmp/osm/rift/:/var/log/rift/
     depends_on:
       - osm-ro
   osm-ui:

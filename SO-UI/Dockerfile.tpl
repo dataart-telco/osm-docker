@@ -35,4 +35,5 @@ RUN if [ -n "${APT_PROXY}" ]; then echo "Acquire::http { Proxy \"${APT_PROXY}\";
 
 EXPOSE 8000 8443
 
-#CMD is defined in parent
+CMD haproxy -D -f /opt/haproxy/haproxy.cfg && /usr/sbin/sshd && /usr/rift/rift-shell -r -i /usr/rift -a /usr/rift/.artifacts -- ./demos/launchpad.py --use-xml-mode
+

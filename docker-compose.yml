@@ -6,7 +6,7 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - /tmp/osm/openmano/logs:/opt/openmano/logs
+      - /var/log/osm/openmano/logs:/opt/openmano/logs
   osm-vca:
     image: ${HUB_REPO}/osm-vca:${COMMIT_ID}
     container_name: osm-vca
@@ -31,7 +31,7 @@ services:
       - "4567:4567"
       - "4568:4568"
     volumes:
-      - /tmp/osm/rift/:/var/log/rift/
+      - /var/log/osm/rift/:/var/log/rift/
     depends_on:
       - osm-ro
       - osm-vca
