@@ -13,7 +13,6 @@ RUN git clone https://osm.etsi.org/gerrit/osm/UI.git /usr/src/UI && \
     rm -rf /usr/src/UI/skyquake/plugins/helloworld && \
     rm -rf /usr/src/UI/skyquake/plugins/goodbyeworld && \
     git apply /opt/osm-patches/hot_fix.patch && \
-    git apply /opt/osm-patches/skyquake.patch && \
     cd /usr/src/UI/skyquake && ./scripts/build.sh 
 
 WORKDIR /usr/src/UI/skyquake

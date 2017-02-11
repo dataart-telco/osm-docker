@@ -15,8 +15,9 @@ services:
       - "8008:8888"
       - "4567:4567"
       - "4568:4568"
-#    volumes:
-#      - /tmp/osm/rift/:/var/log/rift/
+    volumes:
+      - /var/log/osm/rift-so/:/var/log/rift/
+      - /var/data-rift/composer-logos:/usr/rift/usr/share/rw.ui/skyquake/plugins/composer/public/assets/logos
     depends_on:
       - osm-ro
   osm-ui:
@@ -26,6 +27,8 @@ services:
       - API_SERVER=osm-so
     ports:
       - "9443:8443"
+    volumes:
+      - /var/data-rift/composer-logos:/usr/src/UI/skyquake/plugins/composer/public/assets/logos
     depends_on:
       - osm-so
     links:
