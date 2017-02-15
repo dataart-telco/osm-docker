@@ -1,0 +1,56 @@
+diff --git a/vimconn_openstack.py b/vimconn_openstack.py
+index 80ea09c..cd3d469 100644
+--- a/vimconn_openstack.py
++++ b/vimconn_openstack.py
+@@ -468,6 +468,21 @@ class vimconnector(vimconn.vimconnector):
+         """Obtain flavor id that match the flavor description
+            Returns the flavor_id or raises a vimconnNotFoundException
+         """
++        def find_flavor(flavors):
++            for flavor in flavors:
++                # epa = flavor.get_keys()
++                # if epa:
++                #     continue
++                    #TODO
++                if flavor.ram != flavor_dict["ram"]:
++                    continue
++                if flavor.vcpus != flavor_dict["vcpus"]:
++                    continue
++                if flavor.disk != flavor_dict["disk"]:
++                    continue
++                return flavor
++            return None
++
+         try:
+             self._reload_connection()
+             numa=None
+@@ -479,18 +494,17 @@ class vimconnector(vimconn.vimconnector):
+                 #     raise vimconn.vimconnNotFoundException("Cannot find any flavor with more than one numa")
+                 # numa=numas[0]
+                 # numas = extended.get("numas")
+-            for flavor in self.nova.flavors.list():
+-                epa = flavor.get_keys()
+-                if epa:
+-                    continue
+-                    #TODO 
+-                if flavor.ram != flavor_dict["ram"]:
+-                    continue
+-                if flavor.vcpus != flavor_dict["vcpus"]:
+-                    continue
+-                if flavor.disk != flavor_dict["disk"]:
+-                    continue
+-                return flavor.id
++ 
++            flavors = self.nova.flavors.list()
++
++            private_flavor = find_flavor(filter(lambda f: not f.is_public, flavors))
++            if private_flavor is not None:
++                return private_flavor.id
++
++            public_flavor = find_flavor(filter(lambda f: f.is_public, flavors))
++            if public_flavor is not None:
++                return public_flavor.id
++
+             raise vimconn.vimconnNotFoundException("Cannot find any flavor matching '{}'".format(str(flavor_dict)))
+         except (nvExceptions.NotFound, nvExceptions.ClientException, ksExceptions.ClientException, ConnectionError) as e:
+             self._format_exception(e)

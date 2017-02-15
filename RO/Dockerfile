@@ -8,6 +8,8 @@ ENV USER=root
 # build variable
 ARG COMMIT_ID=master
 
+COPY patches /opt/devops-patches
+
 RUN echo 'path-exclude /usr/share/doc/*\n\
 path-include /usr/share/doc/*/copyright\n\
 path-exclude /usr/share/man/*\n\
@@ -31,9 +33,11 @@ APT::AutoRemove::SuggestsImportant "false";\n'\
   wget && \
   echo 'if [ "$1" == "-is" ]; then echo "Ubuntu"; else if [ "$1" == "-rs" ]; then echo "16.04"; fi fi' > /usr/bin/lsb_release && chmod +x /usr/bin/lsb_release && \
   git clone https://osm.etsi.org/gerrit/osm/devops.git /opt/devops && \
+  cd /opt/devops && git apply /opt/devops-patches/devops-ro.patch && cd / && \
   sed -e '/basictest.sh/ s/^#*/#/' -i /opt/devops/jenkins/RO/start_build && \
   /opt/devops/jenkins/RO/start_build checkout $COMMIT_ID && \
   /RO/scripts/install-openmano-service.sh -f /RO && \
+  rm -rf /opt/devops-patches && \
   rm -rf /opt/devops && \
   rm -rf /RO && \
   rm -rf /usr/include/* && \
