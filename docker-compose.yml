@@ -1,13 +1,33 @@
 version: '2'
 services:
+  osm-ro-db:
+    image: mysql
+    container_name: osm-ro-db
+    restart: always
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+      - MYSQL_DATABASE=mano_db
+      - MYSQL_USER=mano
+      - MYSQL_PASSWORD=manopw
+    volumes:
+      - /var/log/osm/openmano/logs:/opt/openmano/logs
   osm-ro:
     image: ${HUB_REPO}/osm-ro:${COMMIT_ID}
     container_name: osm-ro
     restart: always
+    environment:
+      - DB_USER=mano
+      - DB_PSWD=manopw
+      - DB_NAME=mano_db
+      - DB_HOST=osm-ro-db    
     ports:
       - "9090:9090"
     volumes:
       - /var/log/osm/openmano/logs:/opt/openmano/logs
+    depends_on:
+      - osm-ro-db
+    links:
+      - osm-ro-db
   osm-vca:
     image: ${HUB_REPO}/osm-vca:${COMMIT_ID}
     container_name: osm-vca
@@ -24,21 +44,35 @@ services:
       - /etc/systemd/system:/etc/systemd/system
       - /var/lib/lxd/:/var/lib/lxd/
       - /etc/default/lxd-bridge:/etc/default/lxd-bridge
-  osm-so-ui:
-    image: ${HUB_REPO}/osm-so-ui:${COMMIT_ID}
-    container_name: osm-so-ui
+  osm-so:
+    image: ${HUB_REPO}/osm-so:${COMMIT_ID}
+    container_name: osm-so
     restart: always
-    privileged: true
     ports:
       - "8008:8888"
       - "4567:4567"
       - "4568:4568"
-      - "9443:8443"
     volumes:
-      - /var/log/osm/rift/:/var/log/rift/
+      - /var/log/osm/rift-so/:/var/log/rift/
+      - /var/data-rift/composer-logos:/usr/rift/usr/share/rw.ui/skyquake/plugins/composer/public/assets/logos
     depends_on:
       - osm-ro
       - osm-vca
+  osm-ui:
+    image: ${HUB_REPO}/osm-ui:${COMMIT_ID}
+    container_name: osm-ui
+    restart: always
+    environment:
+      - API_SERVER=osm-so
+    ports:
+      - "9443:8443"
+    volumes:
+      - /var/data-rift/composer-logos:/usr/src/UI/skyquake/plugins/composer/public/assets/logos
+    depends_on:
+      - osm-so
+    links:
+      - osm-so
+
 networks:
   default:
     driver: bridge

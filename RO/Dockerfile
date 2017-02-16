@@ -47,7 +47,11 @@ APT::AutoRemove::SuggestsImportant "false";\n'\
   apt clean && \
   rm -rf /var/lib/apt/lists/*
 
+COPY scripts/ /opt/openmano-utils
+
 VOLUME /opt/openmano/logs
 EXPOSE 9090
 
-CMD service mysql start && /opt/openmano/openmanod.py -c /opt/openmano/openmanod.cfg --log-file=/opt/openmano/logs/openmano.log
+env DB_USER='' DB_PSWD='' DB_HOST='' DB_PORT=3306 DB_NAME=mano_db
+
+CMD /opt/openmano-utils/start.sh

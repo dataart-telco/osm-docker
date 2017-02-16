@@ -1,12 +1,17 @@
 diff --git a/jenkins/RO/start_build b/jenkins/RO/start_build
-index 77f751d..aad20fb 100755
+index 77f751d..35d23fb 100755
 --- a/jenkins/RO/start_build
 +++ b/jenkins/RO/start_build
-@@ -33,6 +33,7 @@ if [ "$1" = "--notest" ]; then
+@@ -33,9 +33,11 @@ if [ "$1" = "--notest" ]; then
  fi
-
+ 
  OSM_git_checkout "$@"
 +git apply /opt/devops-patches/hot_fix.patch
-
++git apply /opt/devops-patches/ro_scripts.patch
+ 
  INFO "installing RO packages and dependencies from current repo (--noclone)"
- ./scripts/install-openmano.sh --noclone --force -q
+-./scripts/install-openmano.sh --noclone --force -q
++./scripts/install-openmano.sh --noclone --force -q --no-db
+ RC=$?
+ 
+ if [ -n "$NOTEST" ]; then
